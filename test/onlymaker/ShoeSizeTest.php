@@ -8,11 +8,13 @@ class ShoeSizeTest extends TestCase
     function test()
     {
         $shoeSize = ShoeSize::instance();
-        print_r($shoeSize->normalize('US5'));
-        print_r($shoeSize->normalize('EU37'));
-        print_r($shoeSize->normalize('UK8'));
-        print_r($shoeSize->normalize('CN5'));
-        print_r($shoeSize->normalize('US99'));
-        $this->assertTrue(true);
+        $reflection = new ReflectionClass($shoeSize);
+        $this->assertEquals('EU39', $shoeSize->convert('US9', ShoeSize::EU));
+        $this->assertEquals(ShoeSize::EU, $shoeSize->convert('US7.5', ShoeSize::EU));
+        print_r($shoeSize->normalize('US9.5'));
+        print_r($shoeSize->normalize('us9.9'));
+        print_r($shoeSize->normalize('cn35'));
+        print_r($reflection->getProperties());
+        print_r($reflection->getConstants());
     }
 }

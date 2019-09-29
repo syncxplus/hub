@@ -4,6 +4,10 @@ namespace onlymaker;
 
 class ShoeSize extends \Prefab
 {
+    const US = 'US';
+    const EU = 'EU';
+    const UK = 'UK';
+
     function available()
     {
         return [
@@ -52,36 +56,34 @@ class ShoeSize extends \Prefab
         ];
     }
 
-    function normalize($size)
+    function normalize(string $size): array
     {
-        $available = $this->available();
-        $result = [
-            'us' => '',
-            'eu' => '',
-            'uk' => '',
+        $normalize = [
+            'us' => $this->convert($size, ShoeSize::US),
+            'eu' => $this->convert($size, ShoeSize::EU),
+            'uk' => $this->convert($size, ShoeSize::UK),
         ];
-        $prefix = substr($size, 0, 2);
-        $match = $available[$prefix] ?? false;
-        if ($match) {
-            $i = array_search($size, $match);
-            if ($i === false) {
-                switch ($prefix) {
-                    case 'US':
-                        $result['us'] = $size;
-                        break;
-                    case 'EU':
-                        $result['eu'] = $size;
-                        break;
-                    case 'UK':
-                        $result['uk'] = $size;
-                        break;
-                }
-            } else {
-                foreach ($available as $k => $v) {
-                    $result[strtolower($k)] = $v[$i] ?? '';
+        $normalize['US'] = $normalize['us'];
+        $normalize['EU'] = $normalize['eu'];
+        $normalize['UK'] = $normalize['uk'];
+        return $normalize;
+    }
+
+    function convert(string $fromSize, string $toSystem): string
+    {
+        $size = strtoupper($fromSize);
+        $from = substr($size, 0, 2);
+        $to = strtoupper($toSystem);
+        if ($from == $to) {
+            return $size;
+        } else {
+            $available = $this->available();
+            if (isset($available[$from]) && isset($available[$to])) {
+                if (($i = array_search($size, $available[$from])) !== false) {
+                    return $available[$to][$i];
                 }
             }
         }
-        return $result;
+        return $to;
     }
 }
