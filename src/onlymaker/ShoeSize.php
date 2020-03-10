@@ -86,4 +86,14 @@ class ShoeSize extends \Prefab
         }
         return $to;
     }
+
+    function compare($x, $y)
+    {
+        $pattern = '/(?<size>\d+\.?\d?)/';
+        preg_match($pattern, $x, $matches);
+        $xSize = $matches['size'] ?? 0;
+        preg_match($pattern, $y, $matches);
+        $ySize = $matches['size'] ?? 0;
+        return $xSize - $ySize;
+    }
 }
