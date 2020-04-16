@@ -1,6 +1,6 @@
 {
   "name": "syncxplus/hub",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "authors": [
     {
       "name": "jibo",
@@ -11,7 +11,7 @@
   "require": {
     "ext-curl": "*",
     "ext-json": "*",
-    "bcosca/fatfree": "dev-3.6.5-syncxplus"
+    "bcosca/fatfree": "dev-3.7.1-syncxplus"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.3"
